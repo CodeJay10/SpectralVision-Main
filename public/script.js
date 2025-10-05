@@ -1,14 +1,14 @@
 (function(){
-    // Enhanced helper functions
+    
     const $ = sel => document.querySelector(sel);
     const $$ = sel => document.querySelectorAll(sel);
     
-    // Backend URL definition
+    
     const backendAPI = (window.location.origin && window.location.origin !== 'null') 
         ? window.location.origin + '/api' 
         : 'http://localhost:8000/api';
 
-    // Create floating particles
+    
     function createParticles() {
         const particlesContainer = document.createElement('div');
         particlesContainer.className = 'particles';
@@ -27,16 +27,16 @@
         }
     }
 
-    // Create cosmic background
+    
     function createCosmicBackground() {
         const cosmicBg = document.createElement('div');
         cosmicBg.className = 'cosmic-bg';
         document.body.appendChild(cosmicBg);
     }
 
-    // Toast notification system
+    
     function showToast(message, type = 'info', duration = 3000) {
-        // Remove existing toasts
+        
         $$('.toast').forEach(toast => toast.remove());
         
         const toast = document.createElement('div');
@@ -66,11 +66,11 @@
         return icons[type] || 'ℹ';
     }
 
-    // Initialize enhanced UI
+    
     createCosmicBackground();
     createParticles();
 
-    // Controls
+    
     const landing = $('#landing');
     const mapDiv = $('#map');
     const controlsCard = $('.top-controls');
@@ -94,7 +94,7 @@
     let nasaLayers = [];
     let currentNasaLayer = null;
 
-    // Enhanced date handling
+    
     function formatDate(d){ 
         const y = d.getFullYear();
         const m = ('0'+(d.getMonth()+1)).slice(-2);
@@ -102,7 +102,7 @@
         return `${y}-${m}-${dd}`;
     }
     
-    // Initialize date input safely
+    
     let dateInput;
     setTimeout(() => {
         dateInput = $('#imageryDate');
@@ -112,7 +112,7 @@
         }
     }, 100);
 
-    // NASA Tile Layer function
+    
     function createNasaTileLayer(layerId, date) {
         const layerConfig = nasaLayers.find(l => l.id === layerId);
         if (!layerConfig) return null;
@@ -148,11 +148,11 @@
         );
     }
 
-    // Initialize enhanced map
+    
     async function initMap(dataset){
         console.log('Initializing map for dataset:', dataset);
         
-        // Show map and controls
+        
         mapDiv.classList.add('show');
         controlsCard.style.display = 'block';
         sidebar.style.display = 'block';
@@ -163,7 +163,7 @@
             return;
         }
 
-        // Enhanced map configuration
+        
         map = L.map('map', { 
             center: dataset === 'moon' ? [0, 0] : [20, 0],
             zoom: dataset === 'moon' ? 2 : 3,
@@ -172,22 +172,22 @@
             preferCanvas: true
         });
 
-        // Add zoom control with better positioning
+        
         L.control.zoom({
             position: 'topright'
         }).addTo(map);
 
-        // Add scale bar
+        
         L.control.scale({
             imperial: false,
             position: 'bottomleft'
         }).addTo(map);
 
-        // Initialize layers
+        
         moonLayer = moonTile();
         marsLayer = marsTile();
 
-        // Load NASA layers for Earth
+        
         if (dataset === 'worldview') {
             await loadNasaLayers();
             currentNasaLayer = createNasaTileLayer('VIIRS_SNPP_CorrectedReflectance_TrueColor', dateInput.value);
@@ -201,35 +201,35 @@
             }
         }
 
-        // Enhanced markers layer
+        
         markersLayerGroup = L.layerGroup().addTo(map);
 
-        // Enhanced coordinate display
+        
         map.on('mousemove', function(e){
             if(coordHud) {
                 coordHud.textContent = `Lat: ${e.latlng.lat.toFixed(5)} , Lng: ${e.latlng.lng.toFixed(5)}`;
             }
         });
 
-        // Enhanced right-click context menu
+        
         map.on('contextmenu', function(e){
             e.originalEvent.preventDefault();
             lastClickLatLng = e.latlng;
             openModal();
         });
 
-        // Map load event
+        
         map.whenReady(() => {
             showToast(`${getDatasetName(currentDataset)} map loaded successfully!`, 'success');
         });
 
-        // Load annotations
+        
         loadAnnotations(dataset);
 
-        // Enhanced Socket.IO connection
+        
         initializeSocketIO();
 
-        // Enhanced keyboard shortcuts
+        
         initializeKeyboardShortcuts();
         
         console.log('Map initialization complete');
@@ -271,19 +271,19 @@
     function switchNasaLayer(layerId) {
         if (currentDataset !== 'worldview' || !map) return;
 
-        // Remove current NASA layer
+        
         if (currentNasaLayer) {
             map.removeLayer(currentNasaLayer);
         }
 
-        // Add new NASA layer
+        
         currentNasaLayer = createNasaTileLayer(layerId, dateInput.value);
         if (currentNasaLayer) {
             currentNasaLayer.addTo(map);
             showToast(`Switched to ${nasaLayers.find(l => l.id === layerId).name}`, 'success');
         }
 
-        // Update active layer in UI
+        
         $$('.layer-item').forEach(item => item.classList.remove('active'));
         $$('.layer-item').forEach(item => {
             if (item.querySelector('.layer-name').textContent === nasaLayers.find(l => l.id === layerId).name) {
@@ -309,7 +309,7 @@
         }
     }
 
-    // Clean and set dataset (switch layer)
+    
     function setDataset(dataset){
     console.log('Switching to dataset:', dataset);
         const previousDataset = currentDataset;
@@ -320,14 +320,14 @@
             return;
         }
 
-        // Remove current tile layers
+        
         map.eachLayer(layer => {
             if(layer && layer._url && layer !== markersLayerGroup) {
                 map.removeLayer(layer);
             }
         });
 
-        // Add base layer
+        
         if (dataset === 'worldview') {
             if (currentNasaLayer) {
                 currentNasaLayer.addTo(map);
@@ -339,10 +339,10 @@
             }
         }
 
-        // Re-add markers layer
+        
         markersLayerGroup.addTo(map);
 
-        // Update UI visibility
+        
         const dateControl = $('#dateControl');
         const layerControls = $('#layerControls');
         if(dateControl) {
@@ -352,12 +352,12 @@
             layerControls.style.display = dataset === 'worldview' ? 'block' : 'none';
         }
 
-        // Reload annotations for new dataset
+        
         loadAnnotations(dataset);
 
         showToast(`Switched to ${getDatasetName(dataset)} view`, 'info');
     }
-    // Initialize Socket.IO with enhanced features
+    
     function initializeSocketIO() {
         try {
             socket = io();
@@ -370,24 +370,24 @@
             });
             
             socket.on('new_annotation', function(annotation){
-                // Check if we already have this annotation (avoid duplicates)
+                
                 const existingIndex = annotationsCache.findIndex(a => a.id === annotation.id);
                 if (existingIndex === -1) {
                     annotationsCache.push(annotation);
                     if(annotation.dataset === currentDataset) {
                         addAnnotationMarker(annotation, false);
-                        renderAnnList(); // Re-render entire list to avoid duplicates
+                        renderAnnList(); 
                     }
                 }
             });
 
             socket.on('annotation_deleted', function(annotationId){
-                // Remove from cache
+                
                 annotationsCache = annotationsCache.filter(a => a.id !== annotationId);
-                // Clear and re-render markers
+                
                 markersLayerGroup.clearLayers();
                 annotationsCache.forEach(a => addAnnotationMarker(a));
-                // Re-render list
+                
                 renderAnnList();
             });
             
@@ -396,27 +396,27 @@
         }
     }
 
-    // Enhanced keyboard shortcuts
+    
     function initializeKeyboardShortcuts() {
         document.addEventListener('keydown', e => {
-            // Toggle sidebar with H
+            
             if(e.key.toLowerCase() === 'h' && sidebar) {
                 sidebar.classList.toggle('hidden');
             }
             
-            // Escape key cancels marker placement
+            
             if(e.key === 'Escape' && (placingMarker || drawingShape)) {
                 cancelDrawing();
             }
 
-            // Home key to return to landing
+            
             if(e.key === 'Home' || (e.altKey && e.key === 'h')) {
                 returnToHome();
             }
         });
     }
 
-    // Cancel drawing mode
+    
     function cancelDrawing() {
         placingMarker = false;
         drawingShape = false;
@@ -428,7 +428,7 @@
         showToast('Drawing cancelled', 'info');
     }
 
-    // Return to home screen
+    
     function returnToHome() {
         if(map) {
             map.remove();
@@ -446,9 +446,9 @@
         showToast('Returned to home screen', 'info');
     }
 
-    // UI interactions: landing buttons
+    
     document.addEventListener('DOMContentLoaded', function() {
-        // Wait for DOM to be fully loaded before attaching event listeners
+        
         setTimeout(() => {
             const btnEarth = $('#btn-earth');
             const btnMoon = $('#btn-moon');
@@ -481,7 +481,7 @@
                 });
             }
             
-            // Initialize other event listeners
+            
             initializeEventListeners();
         }, 100);
     });
@@ -497,13 +497,13 @@
     }
 
     function initializeEventListeners() {
-        // Dataset selector
+        
         const datasetSelect = $('#dataset');
         if(datasetSelect) {
             datasetSelect.addEventListener('change', (e) => setDataset(e.target.value));
         }
 
-        // Date selector for Earth view
+        
         if(dateInput) {
             dateInput.addEventListener('change', () => {
                 if(currentDataset === 'worldview') {
@@ -512,7 +512,7 @@
             });
         }
 
-        // Add marker button
+        
         const addMarkerBtn = $('#btn-add-marker');
         if(addMarkerBtn) {
             addMarkerBtn.addEventListener('click', () => {
@@ -524,7 +524,7 @@
             });
         }
 
-        // Shape type selector
+        
         const shapeSelect = $('#shapeType');
         if(shapeSelect) {
             shapeSelect.addEventListener('change', (e) => {
@@ -533,18 +533,18 @@
             });
         }
 
-        // Home button
+        
         const homeBtn = $('#btn-home');
         if(homeBtn) {
             homeBtn.addEventListener('click', returnToHome);
         }
 
-        // Modal handlers
+        
         if(modalClose) modalClose.addEventListener('click', closeModal);
         if(modalCancel) modalCancel.addEventListener('click', closeModal);
         if(modalSave) modalSave.addEventListener('click', saveAnnotation);
 
-        // Search functionality
+        
         const searchBtn = $('#btn-search');
         const searchBox = $('#searchBox');
         if(searchBtn && searchBox) {
@@ -554,13 +554,13 @@
             });
         }
 
-        // Export/Import buttons
+        
         const exportBtn = $('#btn-export');
         const importBtn = $('#btn-import');
         if(exportBtn) exportBtn.addEventListener('click', exportAnnotations);
         if(importBtn) importBtn.addEventListener('click', importAnnotations);
 
-        // Sidebar toggle
+        
         const toggleSidebar = $('#btn-toggle-sidebar');
         if(toggleSidebar) {
             toggleSidebar.addEventListener('click', () => {
@@ -569,9 +569,9 @@
         }
     }
 
-    // Start marker placement based on shape type
+    
     function startMarkerPlacement() {
-        cancelDrawing(); // Reset any previous drawing
+        cancelDrawing(); 
 
         switch(currentShapeType) {
             case 'marker':
@@ -583,7 +583,7 @@
             case 'rectangle':
                 startRectangleDrawing();
                 break;
-            // Polygon removed as requested
+            
         }
     }
 
@@ -687,7 +687,7 @@
         map.on('mousemove', moveHandler);
     }
 
-    // Enhanced modal handling
+    
     function openModal(){
         if(modal) {
             modal.classList.add('show');
@@ -701,7 +701,7 @@
             modal.classList.remove('show'); 
             lastClickLatLng = null;
             currentShapeType = 'marker';
-            // Clean up any temporary shapes
+            
             if (currentShape) {
                 map.removeLayer(currentShape);
                 currentShape = null;
@@ -709,7 +709,7 @@
         }
     }
 
-    // Enhanced modal save with validation - FIXED DUPLICATE ISSUE
+    
     async function saveAnnotation() {
         const userInput = $('#username');
         const noteInput = $('#note');
@@ -738,7 +738,7 @@
 
         console.log('Saving annotation:', payload);
 
-        // Clean up temporary shape before saving
+        
         if (currentShape) {
             map.removeLayer(currentShape);
             currentShape = null;
@@ -746,7 +746,7 @@
 
         closeModal();
 
-        // POST to backend - NO OPTIMISTIC UI TO AVOID DUPLICATES
+        
         try {
             const res = await fetch(`${backendAPI}/annotations`, {
                 method: 'POST',
@@ -758,7 +758,7 @@
                 const saved = await res.json();
                 console.log('Saved successfully:', saved);
                 showToast('Annotation saved successfully!', 'success');
-                // The socket event will handle adding to UI
+                
             } else {
                 const errorText = await res.text();
                 console.error('Server error:', errorText);
@@ -771,7 +771,7 @@
     }
 
     function getShapeData() {
-        // Return shape-specific data
+        
         switch(currentShapeType) {
             case 'circle':
                 if (currentShape && currentShape.getRadius) {
@@ -788,7 +788,7 @@
                     };
                 }
                 break;
-            default: // marker
+            default: 
                 return {
                     lat: lastClickLatLng.lat,
                     lng: lastClickLatLng.lng
@@ -797,7 +797,7 @@
         return {};
     }
 
-    // Enhanced annotation marker with different shapes - FIXED DELETION
+    
     function addAnnotationMarker(annotation, panTo = false){
         let layer;
         const shapeData = annotation.shape_data || {};
@@ -823,11 +823,11 @@
                         weight: 2
                     });
                 } else {
-                    // Fallback to marker if bounds are invalid
+                    
                     layer = L.marker([annotation.lat, annotation.lng]);
                 }
                 break;
-            default: // marker
+            default: 
                 layer = L.marker([annotation.lat, annotation.lng]);
                 break;
         }
@@ -835,7 +835,7 @@
         if(layer) {
             layer.addTo(markersLayerGroup);
             
-            // Store annotation ID on the layer for deletion
+            
             layer._annId = annotation.id;
             
             layer.bindPopup(`
@@ -866,7 +866,7 @@
         return layer;
     }
 
-    // Delete annotation function - COMPLETELY FIXED
+    
     window.deleteAnnotation = async function(id) {
         if(!confirm('Are you sure you want to delete this annotation?')) return;
         
@@ -876,7 +876,7 @@
             });
             
             if(res.ok) {
-                // The socket event will handle the actual removal from UI and map
+                
                 showToast('Annotation deleted', 'success');
             } else {
                 throw new Error('Delete failed');
@@ -887,7 +887,7 @@
         }
     };
 
-    // Load annotations from backend
+    
     async function loadAnnotations(dataset){
         if(markersLayerGroup) markersLayerGroup.clearLayers();
         if(annList) annList.innerHTML = '<div style="text-align: center; padding: 20px; color: #94a3b8;">Loading annotations...</div>';
@@ -897,7 +897,7 @@
             if(!res.ok) throw new Error('Failed to fetch annotations');
             
             const data = await res.json();
-            // Clear cache and reload
+            
             annotationsCache = data.filter(a => a.dataset === dataset);
             
             if(annList) {
@@ -916,7 +916,7 @@
         }
     }
 
-    // Enhanced sidebar list rendering - FIXED DUPLICATES
+    
     function renderAnnList(){
         if(!annList) return;
         
@@ -948,11 +948,11 @@
             
             item.style.cursor = 'pointer';
             item.addEventListener('click', (e) => {
-                // Don't trigger if delete button was clicked
+                
                 if (!e.target.closest('button')) {
                     if(map) {
                         map.setView([annotation.lat, annotation.lng], Math.max(map.getZoom(), 8));
-                        // Find and open the corresponding marker popup
+                        
                         markersLayerGroup.eachLayer(layer => {
                             if(layer._annId === annotation.id) {
                                 layer.openPopup();
@@ -966,7 +966,7 @@
         });
     }
 
-    // Enhanced export functionality
+    
     async function exportAnnotations() {
         try {
             const res = await fetch(`${backendAPI}/annotations/export?dataset=${encodeURIComponent(currentDataset)}`);
@@ -989,7 +989,7 @@
         }
     }
 
-    // Enhanced import functionality
+    
     async function importAnnotations() {
         const input = document.createElement('input');
         input.type = 'file';
@@ -1007,7 +1007,7 @@
                 }
                 
                 let importedCount = 0;
-                for(const annotation of annotations.slice(0, 10)) { // Limit imports
+                for(const annotation of annotations.slice(0, 10)) { 
                     try {
                         const payload = {
                             user: annotation.user || 'Imported User',
@@ -1031,7 +1031,7 @@
                 }
                 
                 showToast(`Successfully imported ${importedCount} annotations`, 'success');
-                // Socket events will handle updating the UI
+                
                 
             } catch(e) {
                 console.error('Import failed:', e);
@@ -1041,7 +1041,7 @@
         input.click();
     }
 
-    // Enhanced search functionality
+    
     async function performSearch() {
         const searchBox = $('#searchBox');
         if(!searchBox) return;
@@ -1052,7 +1052,7 @@
             return;
         }
 
-        // Coordinate search (lat,lng)
+        
         if(/^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(query)) {
             const [lat, lng] = query.split(',').map(x => parseFloat(x.trim()));
             if(Math.abs(lat) <= 90 && Math.abs(lng) <= 180 && map) {
@@ -1065,7 +1065,7 @@
             }
         }
 
-        // Place name search using Nominatim
+        
         showToast('Searching...', 'info');
         try {
             const res = await fetch(
@@ -1086,7 +1086,7 @@
         }
     }
 
-    // Utility function
+    
     function escapeHtml(text) {
         if(!text) return '';
         const div = document.createElement('div');
@@ -1094,11 +1094,11 @@
         return div.innerHTML;
     }
 
-    // Initialize on load
+    
     window.addEventListener('load', () => {
         console.log('🚀 NASA SpaceApp Explorer initialized');
         
-        // Focus search box when available
+        
         setTimeout(() => {
             const searchBox = $('#searchBox');
             if(searchBox) searchBox.focus();
@@ -1126,7 +1126,7 @@
             layerList.appendChild(layerItem);
     });
 
-    // Show layer controls
+    
     layerControls.style.display = 'block';
 }
 
