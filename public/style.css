@@ -37,7 +37,7 @@ html, body {
   line-height: 1.6;
 }
 
-/* Cosmic background animation */
+
 .cosmic-bg {
   position: fixed;
   inset: 0;
@@ -54,7 +54,7 @@ html, body {
   50% { opacity: 1; transform: scale(1.05); }
 }
 
-/* Floating particles */
+
 .particles {
   position: fixed;
   inset: 0;
@@ -75,7 +75,7 @@ html, body {
   100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
 }
 
-/* Landing overlay */
+
 #landing {
   position: fixed;
   inset: 0;
@@ -207,7 +207,7 @@ html, body {
   font-weight: 500;
 }
 
-/* Button variations */
+
 .btn.earth {
   background: linear-gradient(135deg, #0099ff, #6c5ce7);
   animation: floaty 4s ease-in-out infinite;
@@ -236,7 +236,7 @@ html, body {
     0 0 80px rgba(255, 255, 255, 0.1);
 }
 
-/* Info section */
+
 .info {
   padding: 24px;
   border-radius: 16px;
@@ -281,7 +281,7 @@ html, body {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Map container */
+
 #map {
   position: fixed;
   inset: 0;
@@ -297,7 +297,7 @@ html, body {
   z-index: 2;
 }
 
-/* Enhanced top controls */
+
 .top-controls {
   position: absolute;
   left: 20px;
@@ -359,7 +359,7 @@ html, body {
   font-weight: 500;
 }
 
-/* Enhanced sidebar */
+
 #sidebar {
   position: absolute;
   right: 20px;
@@ -405,7 +405,7 @@ html, body {
   padding-right: 8px;
 }
 
-/* Custom scrollbar */
+
 #annList::-webkit-scrollbar {
   width: 6px;
 }
@@ -488,7 +488,7 @@ html, body {
   background: #dc2626;
 }
 
-/* Footer HUD */
+
 .footer-hud {
   position: absolute;
   left: 50%;
@@ -510,7 +510,7 @@ html, body {
   background: var(--card-hover);
 }
 
-/* Enhanced modal */
+
 .modal {
   position: fixed;
   inset: 0;
@@ -641,7 +641,7 @@ html, body {
   box-shadow: 0 8px 25px rgba(0, 153, 255, 0.3);
 }
 
-/* Layer controls */
+
 .layer-controls {
   position: absolute;
   left: 20px;
@@ -691,7 +691,7 @@ html, body {
   color: var(--muted);
 }
 
-/* Toast notifications */
+
 .toast {
   position: fixed;
   top: 20px;
@@ -728,7 +728,7 @@ html, body {
   border-left: 4px solid #3b82f6;
 }
 
-/* Loading animation */
+
 .loading {
   display: inline-block;
   width: 20px;
@@ -743,7 +743,7 @@ html, body {
   to { transform: rotate(360deg); }
 }
 
-/* Responsive design */
+
 @media (max-width: 1024px) {
   .landing-card {
     grid-template-columns: 1fr;
