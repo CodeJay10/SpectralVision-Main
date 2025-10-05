@@ -7,19 +7,15 @@
   
   <title>NASA SpaceApp — Earth, Moon & Mars Explorer</title>
 
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
         crossorigin=""/>
-        
-  <!-- Custom Styles -->
+ 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Cosmic Background Elements -->
   <div class="cosmic-bg"></div>
 
-  <!-- Landing Screen -->
   <div id="landing">
     <div class="landing-card">
       <div class="hero">
@@ -76,10 +72,8 @@
     </div>
   </div>
 
-  <!-- Map Container -->
   <div id="map"></div>
 
-  <!-- Enhanced Top Controls -->
   <div class="top-controls" id="controlsCard" style="display:none;">
     <div class="control-row">
       <div class="control-group">
@@ -130,18 +124,15 @@
     </div>
   </div>
 
-  <!-- NASA Layer Controls -->
   <div class="layer-controls" id="layerControls" style="display:none;">
     <div style="font-weight: 700; margin-bottom: 12px; font-size: 1.1rem;">🌍 Earth Layers</div>
     <div class="layer-list">
-      <!-- Layers will be dynamically loaded here -->
       <div style="text-align: center; padding: 20px; color: #94a3b8;">
         Loading NASA layers...
       </div>
     </div>
   </div>
 
-  <!-- Enhanced Sidebar -->
   <div id="sidebar" style="display:none;">
     <div class="sidebar-header">
       <div class="sidebar-title">
@@ -153,12 +144,10 @@
     <div id="annList"></div>
   </div>
 
-  <!-- Coordinate HUD -->
   <div class="footer-hud" id="coordHud">
     Lat: — , Lng: —
   </div>
 
-  <!-- Enhanced Annotation Modal -->
   <div class="modal" id="modal">
     <div class="modal-card">
       <div class="modal-header">
@@ -185,15 +174,13 @@
     </div>
   </div>
 
-  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
           crossorigin=""></script>
           
-  <!-- Socket.IO -->
   <script src="/socket.io/socket.io.js"></script>
-  
-  <!-- Main Application Script -->
+
   <script src="script.js"></script>
 </body>
+
 </html>
