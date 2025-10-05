@@ -1,9 +1,3 @@
-/**
- * server.js
- * Complete NASA SpaceApp Explorer Backend
- * Earth, Moon & Mars with multiple layers and annotations
- */
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -14,18 +8,14 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-// Configuration
 const PORT = process.env.PORT || 8000;
 const DB_FILE = path.join(__dirname, 'annotations.db');
 
-// Middlewares
 app.use(cors());
 app.use(bodyParser.json({ limit: '1mb' }));
 
-// Serve static client files from /public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize DB with proper error handling
 const db = new sqlite3.Database(DB_FILE, (err) => {
     if (err) {
         console.error('❌ Failed to open DB:', err);
@@ -38,7 +28,6 @@ const db = new sqlite3.Database(DB_FILE, (err) => {
 
 function initializeDatabase() {
     db.serialize(() => {
-        // Drop and recreate table to ensure proper schema
         db.run(`DROP TABLE IF EXISTS annotations`, (err) => {
             if (err) console.error('Error dropping table:', err);
         });
@@ -65,7 +54,6 @@ function initializeDatabase() {
     });
 }
 
-// API endpoints
 app.get('/api/annotations', (req, res) => {
     const dataset = req.query.dataset;
     const sql = dataset ?
@@ -79,7 +67,6 @@ app.get('/api/annotations', (req, res) => {
             return res.status(500).json({ error: err.message });
         }
         
-        // Parse shape_data from JSON string to object
         const parsedRows = rows.map(row => ({
             ...row,
             shape_data: row.shape_data ? JSON.parse(row.shape_data) : {}
@@ -92,7 +79,6 @@ app.get('/api/annotations', (req, res) => {
 app.post('/api/annotations', (req, res) => {
     const { user, note, lat, lng, shape_type = 'marker', shape_data, dataset } = req.body;
 
-    // Input validation
     if (typeof lat !== 'number' || typeof lng !== 'number') {
         return res.status(400).json({ error: 'lat and lng must be numbers' });
     }
@@ -139,7 +125,6 @@ app.post('/api/annotations', (req, res) => {
     stmt.finalize();
 });
 
-// DELETE endpoint
 app.delete('/api/annotations/:id', (req, res) => {
     const id = parseInt(req.params.id);
     
@@ -157,14 +142,12 @@ app.delete('/api/annotations/:id', (req, res) => {
             return res.status(404).json({ error: 'Annotation not found' });
         }
 
-        // Broadcast deletion
         io.emit('annotation_deleted', id);
         console.log('✅ Annotation deleted:', id);
         res.json({ success: true, message: 'Annotation deleted successfully' });
     });
 });
 
-// NASA Layers endpoint
 app.get('/api/nasa-layers', (req, res) => {
     const layers = [
         {
@@ -201,7 +184,6 @@ app.get('/api/nasa-layers', (req, res) => {
     res.json(layers);
 });
 
-// Celestial body info endpoint
 app.get('/api/celestial-info/:body', (req, res) => {
     const body = req.params.body;
     const info = {
@@ -255,7 +237,6 @@ app.get('/api/annotations/export', (req, res) => {
     });
 });
 
-// Health check
 app.get('/health', (req, res) => {
     res.json({ 
         status: 'ok', 
@@ -264,7 +245,6 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Serve Moon and Mars pages
 app.get('/moon', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'moon.html'));
 });
@@ -273,12 +253,10 @@ app.get('/mars', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'mars.html'));
 });
 
-// Serve index.html for other routes (SPA)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Socket.IO for real-time features
 io.on('connection', (socket) => {
     console.log('🔌 Socket connected:', socket.id);
 
@@ -316,4 +294,5 @@ http.listen(PORT, () => {
     console.log(`📍 Local: http://localhost:${PORT}`);
     console.log(`💾 Database: ${DB_FILE}`);
     console.log(`🔌 Ready for connections...\n`);
+
 });
