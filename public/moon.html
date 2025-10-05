@@ -263,9 +263,7 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Wait for DOM to load
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize map with performance optimizations
       var map = L.map('map', {
         center: [0, 0],
         zoom: 2,
@@ -276,7 +274,6 @@
         markerZoomAnimation: false
       });
 
-      // Moon tile layer
       var moonWAC = L.tileLayer(
         "https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd_v02/1.0.0/default/default028mm/{z}/{y}/{x}.jpg",
         { 
@@ -289,55 +286,46 @@
         }
       );
 
-      // Add default layer
       moonWAC.addTo(map);
 
-      // Add scale bar
       L.control.scale({
         imperial: false,
         position: 'bottomleft',
         maxWidth: 200
       }).addTo(map);
 
-      // Pin functionality
       let pins = [];
       let pinMode = true;
       let pinCounter = 0;
 
-      // Create custom marker icon
       const pinIcon = L.divIcon({
         className: 'custom-marker',
         iconSize: [20, 20],
         html: '<i class="fas fa-map-pin" style="color: white; font-size: 12px; position: relative; top: 2px; left: 4px;"></i>'
       });
 
-      // UI Elements
       const loadingOverlay = document.getElementById('loadingOverlay');
       const coordinatesDisplay = document.getElementById('coordinates');
       const addPinBtn = document.getElementById('addPinBtn');
       const clearPinsBtn = document.getElementById('clearPinsBtn');
       const pinCounterDisplay = document.getElementById('pinCounter');
 
-      // Hide loading screen
       setTimeout(function() {
         loadingOverlay.classList.add('hidden');
       }, 800);
 
-      // Update coordinates on mouse move
       map.on('mousemove', function(e) {
         const lat = e.latlng.lat.toFixed(4);
         const lng = e.latlng.lng.toFixed(4);
         coordinatesDisplay.textContent = `Lat: ${lat}, Lng: ${lng}`;
       });
 
-      // Add pin on click when in pin mode
       map.on('click', function(e) {
         if (pinMode) {
           addPin(e.latlng);
         }
       });
 
-      // Add pin function
       function addPin(latlng) {
         pinCounter++;
         const pin = L.marker(latlng, { icon: pinIcon })
@@ -355,13 +343,11 @@
         updatePinCounter();
       }
 
-      // Remove pin function
       window.removePin = function(index) {
         if (pins[index]) {
           map.removeLayer(pins[index]);
           pins.splice(index, 1);
           updatePinCounter();
-          // Re-number remaining pins
           pins.forEach((pin, i) => {
             pin.setPopupContent(`
               <div style="text-align: center;">
@@ -376,12 +362,10 @@
         }
       }
 
-      // Update pin counter display
       function updatePinCounter() {
         pinCounterDisplay.textContent = `Pins: ${pins.length}`;
       }
 
-      // Toggle pin mode
       addPinBtn.addEventListener('click', function() {
         pinMode = !pinMode;
         this.classList.toggle('active');
@@ -394,7 +378,6 @@
         }
       });
 
-      // Clear all pins
       clearPinsBtn.addEventListener('click', function() {
         pins.forEach(pin => {
           map.removeLayer(pin);
@@ -404,7 +387,6 @@
         updatePinCounter();
       });
 
-      // Error handling
       map.on('tileerror', function(e) {
         console.log('Tile loading error');
       });
