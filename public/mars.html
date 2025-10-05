@@ -12,47 +12,38 @@
   <div id="map"></div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Base map setup
     var map = L.map('map', {
       center: [0, 0],
       zoom: 2,
       crs: L.CRS.EPSG4326
     });
-
-    // Equatorial layer (JPEG)
     var marsEQ = L.tileLayer(
       "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0/default/default028mm/{z}/{y}/{x}.jpg",
       { attribution: "NASA Mars Trek", maxZoom: 7, noWrap: true }
     );
-
-    // South Polar layer (PNG)
     var marsSP = L.tileLayer(
       "https://trek.nasa.gov/tiles/Mars/SP/Mars_Viking_MDIM21_ClrMosaic_global_232m_sp/1.0.0/default/default028mm/{z}/{y}/{x}.png",
       { attribution: "NASA Mars Trek", maxZoom: 5, noWrap: true }
     );
-
-    // North Polar layer (PNG)
     var marsNP = L.tileLayer(
       "https://trek.nasa.gov/tiles/Mars/NP/Mars_Viking_MDIM21_ClrMosaic_global_232m_np/1.0.0/default/default028mm/{z}/{y}/{x}.png",
       { attribution: "NASA Mars Trek", maxZoom: 5, noWrap: true }
     );
 
-    // Add default layer
     marsEQ.addTo(map);
 
-    // Layer control
     L.control.layers({
       "Mars Viking Equatorial": marsEQ,
       "Mars Viking South Polar": marsSP,
       "Mars Viking North Polar": marsNP
     }).addTo(map);
 
-    // Add scale bar
     L.control.scale({
-      imperial: false,   // metric only
+      imperial: false,
       position: 'bottomleft',
       maxWidth: 200
     }).addTo(map);
   </script>
 </body>
 </html>
+
