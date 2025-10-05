@@ -116,7 +116,6 @@ app.post('/api/annotations', (req, res) => {
             created_at
         };
 
-        // Broadcast via Socket.IO
         io.emit('new_annotation', inserted);
         console.log('✅ Annotation saved:', inserted.id);
         res.json(inserted);
@@ -216,7 +215,6 @@ app.get('/api/celestial-info/:body', (req, res) => {
     res.json(info[body] || { error: 'Celestial body not found' });
 });
 
-// Export annotations
 app.get('/api/annotations/export', (req, res) => {
     const dataset = req.query.dataset;
     const sql = dataset ?
@@ -269,13 +267,11 @@ io.on('connection', (socket) => {
     });
 });
 
-// Error handling middleware
 app.use((error, req, res, next) => {
     console.error('🚨 Unhandled error:', error);
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// Graceful shutdown
 process.on('SIGINT', () => {
     console.log('\n🛑 Shutting down gracefully...');
     db.close((err) => {
@@ -288,7 +284,6 @@ process.on('SIGINT', () => {
     });
 });
 
-// Start server
 http.listen(PORT, () => {
     console.log(`\n🚀 NASA SpaceApp Explorer Server Started`);
     console.log(`📍 Local: http://localhost:${PORT}`);
@@ -296,3 +291,4 @@ http.listen(PORT, () => {
     console.log(`🔌 Ready for connections...\n`);
 
 });
+
