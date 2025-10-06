@@ -1,93 +1,119 @@
-# 🌌 SpectralVision
+# 🌌 SpectralVision  
 ### “Explore, Annotate, and Learn from NASA’s Gigapixel Earth, Moon, and Mars Imagery”
 
 ---
 
-## 🚀 About the Project
-**SpectralVision** is a full-stack web application built for the **NASA Space Apps Challenge**.  
-It enables users to explore **Earth**, **Moon**, and **Mars** through NASA’s high-resolution imagery, annotate features in real time, and collaborate with others in an interactive 3D-inspired environment.
+## 🚀 Live Demo  
+🔗 **[SpectralVision — Hosted: https://spectralvision-main.onrender.com/](https://spectralvision-main.onrender.com/)**
+
+---
+
+## 🖼️ Project Screenshots
+
+| Home Page | Earth View | Moon View | Mars View |
+|:----------:|:-----------:|:----------:|:----------:|
+| ![Home](public/assets/screenshots/home.png) | ![Earth](public/assets/screenshots/earth-view.png) | ![Moon](public/assets/screenshots/moon-view.png) | ![Mars](public/assets/screenshots/mars-view.png) |
+
+---
+
+## 🧭 About the Project
+**SpectralVision** is a full-stack interactive mapping platform built for the **NASA Space Apps Challenge 2025**.  
+It lets users explore **Earth**, **Moon**, and **Mars** through real NASA imagery, annotate features, and collaborate in real time — bridging the gap between **education and scientific research**.
 
 ---
 
 ## 🌍 Key Features
 
 ### 🪐 Multi-Planetary Exploration
-- Explore **Earth**, **Moon**, and **Mars** with real NASA datasets  
-- High-resolution imagery via NASA GIBS and Lunar/Mars Treks  
-- Seamless switching between celestial bodies
+- Explore **Earth**, **Moon**, and **Mars** through NASA’s official datasets  
+- High-resolution imagery via **NASA GIBS**, **LRO**, and **Mars Trek** APIs  
+- Real-time layer switching across celestial bodies
 
 ### 🗺️ Earth Features
-- 5 different NASA imagery layers:
+- 5 NASA imagery layers:
   - VIIRS SNPP True Color  
   - MODIS Terra True Color  
   - VIIRS NOAA-20 True Color  
   - Land Surface Temperature  
   - Blue Marble Global Mosaic  
-- Date-based imagery selection for temporal analysis
+- Date-based imagery selection for studying seasonal and temporal changes
 
 ### 🌕 Moon & ♂️ Mars Features
-- Lunar Reconnaissance Orbiter (LRO) and Viking datasets  
-- Surface feature visualization and crater mapping  
-- Equatorial and polar exploration modes
-
-### 📍 Annotation System
-- Add markers, circles, and rectangles  
-- Real-time multi-user collaboration with **Socket.IO**  
-- Import/Export JSON annotation data  
-- Persistent storage with **SQLite** backend  
-- Delete or edit annotations instantly
-
-### 💬 Real-time Collaboration
-- Live annotation updates across users  
-- Instant notifications and status feedback  
-- Conflict-free multi-user synchronization  
-
-### 🎨 User Interface
-- Elegant **dark cosmic theme**  
-- Fully responsive design (mobile + desktop)  
-- Animated landing page with floating particles  
-- Toast notification system for feedback  
-
-### ⌨️ User Experience
-- Keyboard shortcuts (`H` for sidebar, `Esc` to cancel)  
-- Right-click quick annotation creation  
-- Coordinate HUD display  
-- Search by coordinates or place name  
-- “Home” button to reset map view  
-
-### 🔧 Technical Stack
-| Layer | Technology |
-|--------|-------------|
-| **Frontend** | HTML5, CSS3, JavaScript, Leaflet.js |
-| **Backend** | Node.js, Express.js |
-| **Database** | SQLite |
-| **Real-time** | Socket.IO |
-| **APIs** | NASA GIBS, LRO, Mars Trek |
-| **Deployment** | Render (Free Hosting) |
+- Lunar Reconnaissance Orbiter (LRO) data for detailed lunar maps  
+- Viking imagery and Mars Trek datasets  
+- Crater and topography exploration
 
 ---
 
-## 💾 Data Management
-- Persistent annotation storage (SQLite)
-- Automatic backup and merging  
-- Import/Export `.json` project files  
-- Cross-session sync for collaboration  
+## 📍 Annotation & Collaboration
+- Multiple shape types: Marker, Circle, Rectangle  
+- Real-time multi-user annotation updates (via **Socket.IO**)  
+- Persistent **SQLite** storage  
+- Import/Export JSON annotation data  
+- Instant **delete and edit functionality**  
+- Conflict-free data synchronization across users  
+
+---
+
+## 💬 Real-Time Functionality
+- **Live multi-user collaboration**  
+- **Instant annotation broadcast** via WebSockets  
+- **Toast notifications** for all actions  
+- **Activity feed** for monitoring real-time updates  
+
+---
+
+## 🎨 User Interface & Experience
+- Clean **dark cosmic theme**  
+- Fully **responsive design** (mobile, tablet, and desktop)  
+- **Animated landing page** with particle effects  
+- **Keyboard shortcuts**:
+  - `H` → Toggle Sidebar  
+  - `Esc` → Cancel Drawing  
+- **Coordinate HUD** and quick annotation via right-click  
+- **Search by coordinates or location name**  
+- **Return Home** button for resetting view  
 
 ---
 
 ## 🌐 Deployment
-**Live Demo:**  
+**Live Website:**  
 🔗 [https://spectralvision-main.onrender.com/](https://spectralvision-main.onrender.com/)
+
+**Tech Used:** Node.js + Express + SQLite + Socket.IO + Leaflet.js  
 
 ---
 
-## 🧭 Run Locally
+## 🔧 Technical Overview
 
+| Category | Technology |
+|-----------|-------------|
+| **Frontend** | HTML5, CSS3, JavaScript (Leaflet.js, Socket.IO) |
+| **Backend** | Node.js, Express.js |
+| **Database** | SQLite |
+| **Real-time Communication** | Socket.IO |
+| **APIs Used** | NASA GIBS, LRO Data, Mars Trek API |
+| **Deployment** | Render |
+| **Version Control** | Git + GitHub |
+
+---
+
+## 💾 Data Management
+- Persistent **SQLite** storage for annotations  
+- Import/export data in `.json` format  
+- Automatic backup & merging for conflict-free collaboration  
+- Real-time updates reflected instantly for all connected users  
+
+---
+
+## 🧩 Installation & Local Setup
+
+### Run Locally
 ```bash
-# 1️⃣ Download or clone this repository
-git clone https://github.com/<yourusername>/SpectralVision.git
+# 1️⃣ Clone this repository
+git clone https://github.com/CoderJay10/SpectralVision-Main.git
 
-# 2️⃣ Navigate into the project
+# 2️⃣ Navigate to the project directory
 cd SpectralVision-Main
 
 # 3️⃣ Install dependencies
@@ -99,5 +125,15 @@ npm audit fix --force
 # 5️⃣ Start the server
 npm start
 
-# 6️⃣ Visit
+# 6️⃣ Open in your browser
 http://localhost:8000
+```
+
+---
+
+## 👩‍🚀 Contributors
+
+| Name | Role |
+|------|------|
+| **Jay Bhusari** | Full-Stack Developer & Project Lead |
+| **Sahul Patil** | Data Specialist — Managing NASA Datasets & Resources |
