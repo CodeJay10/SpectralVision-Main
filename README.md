@@ -136,4 +136,4 @@ http://localhost:8000
 | Name | Role |
 |------|------|
 | **Jay Bhusari** | Full-Stack Developer & Project Lead |
-| **Sahul Patil** | Data Specialist — Managing NASA Datasets & Resources |
+| **Saul Patil** | Data Specialist — Managing NASA Datasets & Resources |
